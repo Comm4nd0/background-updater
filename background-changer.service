@@ -2,7 +2,7 @@
 Description=Background Changer Script
 
 [Service]
-WorkingDirectory=/home/marco/projects/background-changer/
+WorkingDirectory=/home/{USERNAME}/projects/background-changer/
 ExecStart=/usr/bin/python3 main.py
 Restart=always
 
