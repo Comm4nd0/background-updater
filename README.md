@@ -1,4 +1,4 @@
-# background-updater
+# background-updater (LINUX ONLY)
 
 #### This program updates your desktop backgound using images from any sub-reddit.
 
@@ -10,4 +10,6 @@
  * ensure the path to the folder where the main.py is running from is correct.
  * run sudo main.py enjoy some amazing images rotating on your back ground.
  
- Let me know if you want anything adding!
+ Let me know if you want anything adding
+ 
+ ![preview](http://marcobaldanza.com/downloads/bdc.png)
