@@ -1,0 +1,10 @@
+[Unit]
+Description=Background Changer Script
+
+[Service]
+WorkingDirectory={dir}/
+ExecStart=/usr/bin/python3 main_service.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
