@@ -3,6 +3,7 @@
 #### This program updates your desktop backgound using images from any sub-reddit.
 
 ================================================================================
+
  *To install* 
  * git clone this repo.
  * go here: https://www.reddit.com/prefs/apps and create a new app.
