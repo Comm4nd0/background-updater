@@ -15,8 +15,8 @@ Config = ConfigParser()
 Config.read("settings.cfg")
 
 def main():
-    reddit = praw.Reddit(client_id='8iJoKJO8Orlyow',
-                         client_secret='QafZBQRkgNy934MwMR1dL7wwXP4',
+    reddit = praw.Reddit(client_id='',
+                         client_secret='',
                          user_agent='reddit scraper')
     while True:
         rand_num = get_urls(reddit)
