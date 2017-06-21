@@ -11,6 +11,20 @@ import time
 import subprocess
 import configparser
 
+subporn = ('AbandonedPorn', 'AdPorn', 'AdrenalinePorn', 'AerialPorn', 'AgriculturePorn', 'AlbumArtPorn', 'AnimalPorn',\
+          'ApocalypsePorn', 'ArchitecturePorn', 'ArtefactPorn', 'ArtPorn', 'AutumnPorn', 'avporn', 'Beachporn',\
+        'boatporn', 'BonsaiPorn', 'bookporn', 'BotanicalPorn', 'bridgeporn', 'CabinPorn', 'carporn', 'CemeteryPorn',\
+        'churchporn', 'CityPorn', 'ClimbingPorn', 'ComicBookPorn', 'CulinaryPorn', 'desertporn', 'DesignPorn', \
+        'dessertPorn', 'DestructionPorn', 'drydockporn', 'EarthlingPorn', 'EarthPorn', 'ExposurePorn', 'F1Porn',\
+        'fashionporn', 'FirePorn', 'FoodPorn', 'FossilPorn', 'FractalPorn', 'futureporn', 'GamerPorn', 'GeekPorn',\
+        'geologyporn', 'GunPorn', 'HellscapePorn', 'HistoryPorn', 'Houseporn', 'HumanPorn', 'InfraredPorn',\
+        'InfrastructurePorn', 'InstrumentPorn', 'Knifeporn', 'lakeporn', 'lavaporn', 'MachinePorn', 'MacroPorn',\
+        'MapPorn', 'MegalithPorn', 'MetalPorn', 'MicroPorn', 'MilitaryPorn', 'MotorcyclePorn', 'MoviePosterPorn',\
+        'mtgporn', 'MushroomPorn', 'NewsPorn', 'OrganizationPorn', 'policeporn', 'powerwashingporn', 'QuotesPorn',\
+        'retailporn', 'RetroGamePorn', 'RidesPorn', 'RoomPorn', 'ruralporn', 'seaporn', 'SkyPorn', 'spaceflightporn',\
+        'spaceporn', 'SportsPorn', 'SpringPorn', 'stadiumporn', 'StarshipPorn', 'steamporn', 'StreetArtPorn',\
+        'SummerPorn', 'TeaPorn', 'TechnologyPorn', 'TelevisionPosterPorn', 'ThingsCutInHalfPorn', 'toolporn',\
+        'uniformporn', 'VideoPorn', 'ViewPorn', 'VillagePorn', 'waterporn', 'WeatherPorn', 'winterporn')
 img_ext = ('.jpg','.jpeg','.png','.bmp')
 urls = []
 Config = configparser.ConfigParser()
@@ -54,10 +68,15 @@ class GUI(ttk.Frame):
         sub_text['text'] = "Reddit Sub"
         sub_text.grid(column=0, row=6, sticky='E', padx=5, pady=5)
 
-        self.sub = ttk.Entry(self)
-        current_sub = Config.get('settings', 'sub')
-        self.sub.insert(0, current_sub)
-        self.sub.grid(column=1, row=6, sticky='W', padx=5, pady=5)
+        self.var = tk.StringVar()
+        self.var.set("Select Type")
+        option = ttk.OptionMenu(self, self.var, "Select Subreddit", *subporn)
+        option.grid(column=1, row=6, sticky='W', padx=5, pady=5)
+
+        #self.sub = ttk.Entry(self)
+        #current_sub = Config.get('settings', 'sub')
+        #self.sub.insert(0, current_sub)
+        #self.sub.grid(column=1, row=6, sticky='W', padx=5, pady=5)
 
         interval_text = ttk.Label(self, font=("Courier", 12))
         interval_text['text'] = "Interval(time)"
@@ -103,7 +122,7 @@ class GUI(ttk.Frame):
 
     def install(self):
         config = configparser.RawConfigParser()
-        sub = self.sub.get()
+        sub = self.var.get()
         time = self.interval.get()
         count = self.sub_count.get()
 
