@@ -3,13 +3,9 @@
 
 import tkinter as tk
 from tkinter import ttk
-import os
-import praw
-import urllib.request
-from random import randint
-import time
 import subprocess
 import configparser
+from tkinter.scrolledtext import ScrolledText
 
 subporn = ('AbandonedPorn', 'AdPorn', 'AdrenalinePorn', 'AerialPorn', 'AgriculturePorn', 'AlbumArtPorn', 'AnimalPorn',\
           'ApocalypsePorn', 'ArchitecturePorn', 'ArtefactPorn', 'ArtPorn', 'AutumnPorn', 'avporn', 'Beachporn',\
@@ -25,16 +21,31 @@ subporn = ('AbandonedPorn', 'AdPorn', 'AdrenalinePorn', 'AerialPorn', 'Agricultu
         'spaceporn', 'SportsPorn', 'SpringPorn', 'stadiumporn', 'StarshipPorn', 'steamporn', 'StreetArtPorn',\
         'SummerPorn', 'TeaPorn', 'TechnologyPorn', 'TelevisionPosterPorn', 'ThingsCutInHalfPorn', 'toolporn',\
         'uniformporn', 'VideoPorn', 'ViewPorn', 'VillagePorn', 'waterporn', 'WeatherPorn', 'winterporn')
+
 img_ext = ('.jpg','.jpeg','.png','.bmp')
 urls = []
 Config = configparser.ConfigParser()
 Config.read("settings.cfg")
+SUBS = []
+B = True
+C = tk.Checkbutton
+
+class Choices(ScrolledText):
+    def __init__(self, master=None, **kwargs):
+        super().__init__(master, cursor="arrow", **kwargs)
+        for sub in subporn:
+            B = tk.BooleanVar(master)
+            C = tk.Checkbutton(self, text=sub, variable=B, bg='black', fg='white', selectcolor='#111', borderwidth=3, highlightthickness=0)
+            self.window_create(tk.END, window=C,)
+            self.insert(tk.END, '\n')
+            SUBS.append((sub, C, B))
+        self.config(state=tk.DISABLED, bg=C['bg'], width=25, height=15, background='black')
 
 class GUI(ttk.Frame):
     def __init__(self, master):
         ttk.Frame.__init__(self, master)
 
-        self.center(350, 300)
+        self.center(400, 500)
         self.master.configure(background='black')
         self.master.title("Desktop Background Changer")
 
@@ -65,18 +76,12 @@ class GUI(ttk.Frame):
         intro.grid(column=0, row=3, rowspan=2, columnspan=2, sticky='NWES', padx=5, pady=20)
 
         sub_text = ttk.Label(self, font=("Courier", 12))
-        sub_text['text'] = "Reddit Sub"
+        sub_text['text'] = "Choose subs"
         sub_text.grid(column=0, row=6, sticky='E', padx=5, pady=5)
 
-        self.var = tk.StringVar()
-        self.var.set("Select Type")
-        option = ttk.OptionMenu(self, self.var, "Select Subreddit", *subporn)
-        option.grid(column=1, row=6, sticky='W', padx=5, pady=5)
-
-        #self.sub = ttk.Entry(self)
-        #current_sub = Config.get('settings', 'sub')
-        #self.sub.insert(0, current_sub)
-        #self.sub.grid(column=1, row=6, sticky='W', padx=5, pady=5)
+        # scroll area with multi selection
+        c = Choices(self, width=30, height=10)
+        c.grid(column=1, row=6, sticky='W', padx=5, pady=5)
 
         interval_text = ttk.Label(self, font=("Courier", 12))
         interval_text['text'] = "Interval(time)"
@@ -122,12 +127,14 @@ class GUI(ttk.Frame):
 
     def install(self):
         config = configparser.RawConfigParser()
-        sub = self.var.get()
+        sub = [sub for sub, C, B in SUBS if B.get()]
         time = self.interval.get()
         count = self.sub_count.get()
-
+        subs = ''
         config.add_section('settings')
-        config.set('settings', 'sub', sub)
+        for res in sub:
+            subs += res + ','
+        config.set('settings', 'sub', subs)
         config.set('settings', 'interval', time)
         config.set('settings', 'sub_count', count)
 

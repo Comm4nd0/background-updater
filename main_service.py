@@ -47,7 +47,10 @@ def set_bg(url):
 def get_urls(reddit):
     rand_num = randint(1, int(Config.get('settings', 'sub_count')))
     del urls[:]
-    for submission in reddit.subreddit(Config.get('settings', 'sub')).hot(limit=rand_num):
+    subs = (Config.get('settings', 'sub'))
+    indiv_subs = subs.split(',')
+    sub_num = randint(1, len(indiv_subs)-2)
+    for submission in reddit.subreddit(indiv_subs[sub_num]).hot(limit=rand_num):
         urls.append(submission.url)
     return rand_num
 
