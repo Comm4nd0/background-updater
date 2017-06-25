@@ -49,7 +49,9 @@ def get_urls(reddit):
     del urls[:]
     subs = (Config.get('settings', 'sub'))
     indiv_subs = subs.split(',')
-    sub_num = randint(1, len(indiv_subs)-2)
+
+    sub_num = randint(0, len(indiv_subs)-2)
+
     for submission in reddit.subreddit(indiv_subs[sub_num]).hot(limit=rand_num):
         urls.append(submission.url)
     return rand_num
